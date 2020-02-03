@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noEmit": true,
+    //"suppressImplicitAnyIndexErrors": true,
+    //"allowSyntheticDefaultImports": true,
+    "lib": [
+      "dom",
+      "es5",
+      "es2015",
+      "es2015.promise",
+      "es2016",
+      "es6"
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+      "Scripts/Lib"
+    ],
+    //"traceResolution": true,
+    "baseUrl": "."
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "compileOnSave": false
+}
