@@ -21,6 +21,11 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "*.{js, jsx, ts}": [
       "node_modules/.bin/eslint --max-warnings=0 --cache Areas/**/*.{js,ts}",
