@@ -6,11 +6,11 @@
 	// Наборы правил
 	"extends": [
 		// Базовый набор правил eslint
-		//"eslint:recommended",
+		"eslint:recommended",
 		//"@vue/typescript",
 
 		// Базовый набор правил vue eslint
-		"plugin:vue/recommended",
+		//"plugin:vue/recommended",
 
 		// Отключаем правила из базового набора, потому что они не работают с TypeScript и вместо нормальной работы будут сыпать кучу ошибок
 		"plugin:@typescript-eslint/eslint-recommended",
@@ -22,18 +22,19 @@
 		"plugin:@typescript-eslint/recommended-requiring-type-checking"
 	],
 	// Движок парсинга
-	"parser": "vue-eslint-parser",
+	//"parser": "vue-eslint-parser",
 	"parserOptions": {
 		// Движку нужен проект TS для правил с типами
 		"parser": "@typescript-eslint/parser",
 		"project": "tsconfig.json",
 		"tsconfigRootDir": ".",
-		"extraFileExtensions": [ "vue" ],
+		"extraFileExtensions": [],
+		//"vue"
 		"ecmaVersion": 2017,
 		"sourceType": "module"
 	},
 	// Плагин с наборами правил для TypeScript
-	"plugins": [ "prettier", "@typescript-eslint", "@typescript-eslint/eslint-plugin", "vue" ],
+	"plugins": [ "prettier", "@typescript-eslint", "@typescript-eslint/eslint-plugin" ],
 	"rules": {
 		// allow async-await
 		"generator-star-spacing": "off"
