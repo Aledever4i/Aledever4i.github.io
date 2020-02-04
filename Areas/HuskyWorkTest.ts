@@ -1,7 +1,8 @@
 ﻿class Test
 {
     Z!: number;
-    
+
+
 
     Test() {
         this.Z = 5;
