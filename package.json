@@ -22,7 +22,7 @@
   "dependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "eslint"
     }
   },
   "lint-staged": {
