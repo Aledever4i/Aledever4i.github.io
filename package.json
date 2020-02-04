@@ -6,7 +6,7 @@
     "build": "webpack",
     "buildDev": "cmd /c webpack --color --config webpack.dev.js --display errors-only",
     "buildProd": "cmd /c webpack --color --config webpack.prod.js --display errors-only",
-    "eslintAll": "eslint --max-warnings=0 --cache --ext .ts"
+    "eslintAll": "eslint . --max-warnings=0 --cache --ext .ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.18.0",
@@ -29,7 +29,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts}": [
-      "eslint --max-warnings=0 --ext .ts"
+      "eslint . --max-warnings=0 --ext .ts"
     ]
   }
 }
