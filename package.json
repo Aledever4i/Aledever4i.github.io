@@ -29,7 +29,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts}": [
-      "eslint --max-warnings=0 --cache"
+      "eslint --max-warnings=0"
     ]
   }
 }
