@@ -1,7 +1,6 @@
 {
   "version": "1.0.0",
   "name": "asp.net",
-  "private": true,
   "scripts": {
     "build": "webpack",
     "buildDev": "cmd /c webpack --color --config webpack.dev.js --display errors-only",
