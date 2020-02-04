@@ -3,7 +3,6 @@
     Z!: number;
 
 
-
     Test() {
         this.Z = 5;
     }
