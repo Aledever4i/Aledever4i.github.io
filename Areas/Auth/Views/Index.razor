@@ -1,7 +1,125 @@
 ﻿@page "/auth"
+@using Google.Apis.Auth.OAuth2;
+@using Google.Apis.Drive.v3;
+@using Google.Apis.Docs.v1;
+@using Google.Apis.Services;
+@using Google.Apis.Util.Store;
+@using System;
+@using System.Collections.Generic;
+@using System.IO;
+@using System.Linq;
+@using System.Text;
+@using System.Threading;
+@using System.Threading.Tasks;
 
 <h3>Index</h3>
+<h1>Hello World</h1>
+<p>I'm hosted with GitHub Pages.</p>
+
+<ul>
+@foreach (var item in filesNames)
+{
+    <li>@item</li>
+}
+</ul>
+
+<div>
+    @Body
+</div>
+
+<button @onclick="updateList" />
+
+<button @onclick="testDocs">Доки</button>
 
 @code {
+}
 
+@functions {
+    public List<string> filesNames = new List<string>();
+
+    public string Body;
+
+    static string[] Scopes = { DriveService.Scope.DriveReadonly };
+    static string ApplicationName = "Drive API .NET Quickstart";
+
+    protected void updateList()
+    {
+        UserCredential credential;
+        filesNames.Clear();
+
+        using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+        {
+            // The file token.json stores the user's access and refresh tokens, and is created
+            // automatically when the authorization flow completes for the first time.
+            string credPath = "token.json";
+            credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                GoogleClientSecrets.Load(stream).Secrets,
+                Scopes,
+                "user",
+                CancellationToken.None,
+                new FileDataStore(credPath, true)).Result;
+        }
+
+        var service = new DriveService(new BaseClientService.Initializer()
+        {
+            HttpClientInitializer = credential,
+            ApplicationName = ApplicationName,
+        });
+
+        FilesResource.ListRequest listRequest = service.Files.List();
+        listRequest.PageSize = 10;
+        listRequest.Fields = "nextPageToken, files(id, name)";
+
+        IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
+        if (files != null && files.Count > 0)
+        {
+            foreach (var file in files)
+            {
+                filesNames.Add(file.Id);
+            }
+        }
+    }
+
+    protected void testDocs()
+    {
+        UserCredential credential;
+
+        using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+        {
+            string credPath = "token.json";
+            credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                GoogleClientSecrets.Load(stream).Secrets,
+                Scopes,
+                "user",
+                CancellationToken.None,
+                new FileDataStore(credPath, true)).Result;
+        }
+
+        var service = new DocsService(new BaseClientService.Initializer()
+        {
+            HttpClientInitializer = credential,
+            ApplicationName = ApplicationName,
+        }
+        );
+
+        String documentId = "1Q1XoNJ4Ew7a1KcFmwILBHXCKIe_dt3QAvQmZpuI85TQ";
+        DocumentsResource.GetRequest request = service.Documents.Get(documentId);
+
+        Google.Apis.Docs.v1.Data.Document doc = request.Execute();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        foreach (var i in doc.Body.Content)
+        {
+            var p = i.Paragraph;
+            if (p != null)
+            {
+                foreach (var e in p.Elements)
+                {
+                stringBuilder.Append(e?.TextRun?.Content ?? string.Empty);
+                }
+            }
+        }
+
+        Body = stringBuilder.ToString();
+    }
 }

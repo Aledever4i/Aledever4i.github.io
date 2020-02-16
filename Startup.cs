@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Connector.Areas.WeatherForecast.Services;
+using Microsoft.AspNetCore.Authentication.OAuth;
 
 namespace Connector
 {
@@ -30,6 +31,13 @@ namespace Connector
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "999821268835-g9ie0srhda4qo4nk9ttokvtg79l26duq.apps.googleusercontent.com";
+                    options.ClientSecret = "dxN-Wyp_eH8Knc611glDVvjZ";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +56,7 @@ namespace Connector
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseRouting();
 
