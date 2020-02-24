@@ -11,11 +11,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Connector.Areas.WeatherForecast.Services;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Connector.Areas.Auth.Services;
+using Google.Apis.Auth.OAuth2;
+using System.IO;
+using System.Threading;
+using Google.Apis.Util.Store;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
+
 
 namespace Connector
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -38,6 +47,10 @@ namespace Connector
                     options.ClientId = "999821268835-g9ie0srhda4qo4nk9ttokvtg79l26duq.apps.googleusercontent.com";
                     options.ClientSecret = "dxN-Wyp_eH8Knc611glDVvjZ";
                 });
+
+            services.AddTransient<IGoogleCredentialInitializer, GoogleCredentialInitializer>();
+            services.AddTransient<IGoogleDriveService, GoogleDriveService>(initializer => { return new GoogleDriveService(initializer.GetService<IGoogleCredentialInitializer>()); });
+            services.AddTransient<IGoogleDocsService, GoogleDocsService>(initializer => { return new GoogleDocsService(initializer.GetService<IGoogleCredentialInitializer>()); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
